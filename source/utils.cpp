@@ -260,49 +260,6 @@ namespace util {
         }
     }
 	
-	void deleteEverythingButeMMCNintendo(const std::string& directory)
-    {
-        for (const auto& e : std::filesystem::directory_iterator(directory)) {
-            if ((e.path().string().find("emuMMC") == std::string::npos) ||
-               (e.path().string().find("Nintendo") == std::string::npos))
-            {
-                //std::filesystem::remove_all(ROOT_PATH + e.path().string());
-			    showDialogBoxBlocking(ROOT_PATH + e.path().string(), "menus/common/no"_i18n, "menus/common/yes"_i18n);
-            }
-        }
-    }
-
-    void writeLog(std::string line)
-    {
-        std::ofstream logFile;
-        logFile.open(LOG_FILE, std::ofstream::out | std::ofstream::app);
-        if (logFile.is_open()) {
-            logFile << line << std::endl;
-        }
-        logFile.close();
-    }
-
-    std::string getGMPackVersion()
-    {
-        std::ifstream file(PACK_FILE);
-        std::string line;
-
-        if (file.is_open())
-        {
-            while (std::getline(file, line)) {
-                if(line.find("{GMPACK", 0) != std::string::npos)
-                {
-					line = " - " + line.substr(1, line.size() - 2);
-					break;
-                }
-                else
-                    line = "";
-            }
-            file.close();
-        }
-        return line;
-    }
-
     std::string lowerCase(const std::string& str)
     {
         std::string res = str;
@@ -386,4 +343,79 @@ namespace util {
         return (jsonFile.find(key) != jsonFile.end()) ? jsonFile.at(key) : nlohmann::ordered_json::object();
     }
 
+	void deleteEverythingButeMMCNintendo(const std::string& directory)
+    {
+        for (const auto& e : std::filesystem::directory_iterator(directory)) {
+            if ((e.path().string().find("emuMMC") == std::string::npos) ||
+               (e.path().string().find("Nintendo") == std::string::npos))
+            {
+                //std::filesystem::remove_all(ROOT_PATH + e.path().string());
+			    showDialogBoxBlocking(ROOT_PATH + e.path().string(), "menus/common/no"_i18n, "menus/common/yes"_i18n);
+            }
+        }
+    }
+
+    void writeLog(std::string line)
+    {
+        std::ofstream logFile;
+        logFile.open(LOG_FILE, std::ofstream::out | std::ofstream::app);
+        if (logFile.is_open()) {
+            logFile << line << std::endl;
+        }
+        logFile.close();
+    }
+
+    std::string getGMPackVersion()
+    {
+        std::ifstream file(PACK_FILE);
+        std::string line;
+
+        if (file.is_open())
+        {
+            while (std::getline(file, line)) {
+                if(line.find("{GMPACK", 0) != std::string::npos)
+                {
+					line = " - " + line.substr(1, line.size() - 2);
+					break;
+                }
+                else
+                    line = "";
+            }
+            file.close();
+        }
+        return line;
+    }
+
+    void doDelete(std::vector<std::string> folders, contentType type)
+    {
+        ProgressEvent::instance().setTotalSteps(folders.size() + 1);
+        ProgressEvent::instance().setStep(0);
+        switch (type) {
+            case contentType::translations: {
+                std::string contentsPath = util::getContentsPath();
+                for (std::string f : folders) {
+                  std::filesystem::remove_all(contentsPath + f);
+				  util::writeLog("apagando: " + contentsPath + f);
+				  ProgressEvent::instance().incrementStep(1);
+                }
+                break;
+		    }
+            default:
+                break;
+        }
+        ProgressEvent::instance().incrementStep(1);
+    }
+
+    bool isTranslationPresent(const std::vector<std::string> folders)
+    {
+        std::string contentsPath = util::getContentsPath();
+        for (const auto& folder : folders) {
+            if (std::filesystem::exists(contentsPath + folder) && !std::filesystem::is_empty(contentsPath + folder)) {
+				util::writeLog("pasta istranslationpresent: " + contentsPath + folder);
+                return true;
+				break;
+            }
+        }
+        return false;
+    }
 }  // namespace util

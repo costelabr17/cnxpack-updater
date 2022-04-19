@@ -8,11 +8,11 @@ constexpr const char RCM_PAYLOAD_PATH[] = "romfs:/cnxpack_rcm.bin";
 constexpr const char MARIKO_PAYLOAD_PATH[] = "/payload.bin";
 constexpr const char MARIKO_PAYLOAD_PATH_TEMP[] = "/payload.bin.apg";
 
-constexpr const char APP_URL[] = "https://github.com/AMSNX/cnxpack-updater/releases/latest/download/cnxpack-updater.zip";
-constexpr const char TAGS_INFO[] = "https://api.github.com/repos/AMSNX/cnxpack-updater/releases/latest/";
+constexpr const char APP_URL[] = "https://github.com/AMSNX/cnxpack-updater/releases/latest/download/cnx-updater.zip";
+constexpr const char TAGS_INFO[] = "https://api.github.com/repos/AMSNX/cnxpack-updater/releases/latest";
 constexpr const char APP_FILENAME[] = "/config/cnxpack-updater/app.zip";
 
-constexpr const char NXLINKS_URL[] = "https://raw.githubusercontent.com/coldmvm/nx-links/master/nx-links-new.json";
+constexpr const char NXLINKS_URL[] = "https://raw.githubusercontent.com/coldmvm/nx-links/master/nx-links-v115.json";
 
 constexpr const char FIRMWARE_FILENAME[] = "/config/cnxpack-updater/firmware.zip";
 constexpr const char FIRMWARE_PATH[] = "/firmware/";
