@@ -19,7 +19,7 @@ namespace {
     constexpr const char AppVersion[] = APP_VERSION;
 }
 
-ToolsTab::ToolsTab(const std::string& tag, bool erista, const nlohmann::json& hideStatus) : brls::List()
+ToolsTab::ToolsTab(const std::string& tag, bool erista) : brls::List()
 {
     if (!tag.empty()) {
         //fetching the version as a number
@@ -46,14 +46,10 @@ ToolsTab::ToolsTab(const std::string& tag, bool erista, const nlohmann::json& hi
             updateApp->getClickEvent()->subscribe([text, tag](brls::View* view) {
                 brls::StagedAppletFrame* stagedFrame = new brls::StagedAppletFrame();
                 stagedFrame->setTitle("menus/common/updating"_i18n);
-                stagedFrame->addStage(
-                    new ConfirmPage(stagedFrame, text));
-                stagedFrame->addStage(
-                    new WorkerPage(stagedFrame, "menus/common/downloading"_i18n, []() { util::downloadArchive(APP_URL, contentType::app); }));
-                stagedFrame->addStage(
-                    new WorkerPage(stagedFrame, "menus/common/extracting"_i18n, []() { util::extractArchive(contentType::app); }));
-                stagedFrame->addStage(
-                    new ConfirmPage(stagedFrame, "menus/common/all_done"_i18n, true));
+                stagedFrame->addStage(new ConfirmPage(stagedFrame, text));
+                stagedFrame->addStage(new WorkerPage(stagedFrame, "menus/common/downloading"_i18n, []() { util::downloadArchive(APP_URL, contentType::app); }));
+                stagedFrame->addStage(new WorkerPage(stagedFrame, "menus/common/extracting"_i18n, []() { util::extractArchive(contentType::app); }));
+                stagedFrame->addStage(new ConfirmPage(stagedFrame, "menus/common/all_done"_i18n, true));
                 brls::Application::pushView(stagedFrame);
             });
             updateApp->setHeight(LISTITEM_HEIGHT);
@@ -116,8 +112,8 @@ ToolsTab::ToolsTab(const std::string& tag, bool erista, const nlohmann::json& hi
     });
     changelog->setHeight(LISTITEM_HEIGHT);
 
-    if (!util::getBoolValue(hideStatus, "netsettings")) this->addView(netSettings);
-    if (!util::getBoolValue(hideStatus, "browser")) this->addView(browser);
-    if (!util::getBoolValue(hideStatus, "cleanup")) this->addView(cleanUp);
+    this->addView(netSettings);
+    this->addView(browser);
+    this->addView(cleanUp);
     this->addView(changelog);
 }

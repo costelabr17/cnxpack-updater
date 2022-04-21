@@ -8,11 +8,11 @@ constexpr const char RCM_PAYLOAD_PATH[] = "romfs:/cnxpack_rcm.bin";
 constexpr const char MARIKO_PAYLOAD_PATH[] = "/payload.bin";
 constexpr const char MARIKO_PAYLOAD_PATH_TEMP[] = "/payload.bin.apg";
 
-constexpr const char APP_URL[] = "https://github.com/AMSNX/cnxpack-updater/releases/latest/download/cnx-updater.zip";
+constexpr const char APP_URL[] = "https://github.com/AMSNX/cnxpack-updater/releases/latest/download/cnxpack-updater.zip";
 constexpr const char TAGS_INFO[] = "https://api.github.com/repos/AMSNX/cnxpack-updater/releases/latest";
 constexpr const char APP_FILENAME[] = "/config/cnxpack-updater/app.zip";
 
-constexpr const char NXLINKS_URL[] = "https://raw.githubusercontent.com/coldmvm/nx-links/master/nx-links-v115.json";
+constexpr const char NXLINKS_URL[] = "https://raw.githubusercontent.com/coldmvm/nx-links/main/nx-links-v116.json";
 
 constexpr const char FIRMWARE_FILENAME[] = "/config/cnxpack-updater/firmware.zip";
 constexpr const char FIRMWARE_PATH[] = "/firmware/";
@@ -43,7 +43,6 @@ constexpr const char AMS_DIRECTORY_PATH[] = "/config/cnxpack-updater/atmosphere/
 constexpr const char SEPT_DIRECTORY_PATH[] = "/config/cnxpack-updater/sept/";
 constexpr const char FW_DIRECTORY_PATH[] = "/firmware/";
 
-constexpr const char HIDE_TABS_JSON[] = "/config/cnxpack-updater/hide_tabs.json";
 constexpr const char COPY_FILES_TXT[] = "/config/cnxpack-updater/copy_files.txt";
 constexpr const char LANGUAGE_JSON[] = "/config/cnxpack-updater/language.json";
 
@@ -65,11 +64,12 @@ enum class contentType
     fw,
     app,
     ams_cfw,
-	translations,
+    translations,
+    modifications
 };
 
-constexpr std::string_view contentTypeNames[4]{"firmwares", "app", "cfws", "translations"};
-constexpr std::string_view contentTypeFullNames[4]{"o firmware", "o homebrew", "o CFW", "a tradução"};
+constexpr std::string_view contentTypeNames[5]{"firmwares", "app", "cfws", "translations", "modifications"};
+constexpr std::string_view contentTypeFullNames[5]{"o firmware", "o homebrew", "o CFW", "a tradução", "a modificação"};
 
 enum class CFW
 {

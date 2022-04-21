@@ -33,6 +33,7 @@
     "getting": "Baixando {}",
     "firmware_text": "Os firmwares estão disponíveis em 'https://darthsternie.net/switch-firmwares/'.\nDepois de baixado ele será extraído para a pasta '/firmware' e você poderá, então, instalá-lo usando o homebrew 'Daybreak'.\nFirmware atual: ",
     "translations_text": "As traduções são feitas por membros da cena e tem a finalidade de distribuir acessibilidade linguística aos jogos.\n\n\u25c6 Algumas traduções precisam de passos específicos para que funcionem. Para maiores detalhes consulte os sites dos criadores das traduções:\nhttps://www.jumpmanclubbrasil.com.br/\nhttps://traducoespkg.tumblr.com/\nhttps://nintendonxbr.blogspot.com/\n\nAbaixo estão listadas algumas traduções disponíveis para download.",
+	"modifications_text": "As modificações de jogos, também conhecidos por MODS, são feitas por membros da cena e tem a diversas finalidades. Vão desde melhorias gráficas até trapaças (cheats) ou trainers (uma espécie de trapaça adicionada quando o jogo não vem com trapaça \"de fábrica\".\n\n\u25c6 Algumas modificaçõs precisam de passos específicos para que funcionem. Para maiores detalhes pesquise online sobre tais modificações e procure se inteirar sobre a mesma.\n\nAbaixo estão listadas algumas modificações disponíveis aqui para download.",																																																																																																																																													   
     "firmware": "firmware",
     "not_found": "não encontrado",
     "links_not_found": "Não foi possível encontrar o link de download! Seu Switch está conectado à Internet?\nSe o problema persistir, abra um 'issue' no GitHub.",
@@ -42,6 +43,7 @@
     "update_ams": "Baixar CNX Pack",
     "download_firmware": "Baixar firmwares",
     "download_translations": "Baixar traduções",
+	"download_mods": "Baixar modificações",										 
     "tools": "Ferramentas",
     "launch_warning": "Por favor, preste atenção aos seguintes pontos antes de usar este homebrew:\n\n\u25c6 Leia e entenda sobre como manualmente atualizar seu Switch antes. Isto lhe ajudará a entender melhor este homebrew e você saberá o que fazer caso algo saia errado.\n\u25c6 Para evitar o risco de corrompimento de dados, o uso deste homebrew em um microSD formatado em exFAT é FORTEMENTE desaconselhado.\n\n\u25c6 As últimas informações sobre novas funções inseridas e/ou modificadas estão disponíveis no menu Ferramentas->Alterações.\n\nEsta tela não aparecerá novamente.",
     "footer_text" : "Cnx Updater - {} - {}Gb disponíveis",
@@ -63,7 +65,7 @@
     "not_an_archive": "O arquivo baixado não é um arquivo zip. Isto provavelmente aconteceu devido a um link quebrado. Se o problema persistir depois de 30 minutos, por favor, abra um 'issue' no Github.",
     "fresh_install": "Você deseja realizar uma instalação limpa?\n\nUma instalação limpa removerá todo o conteúdo do microSD menos as pastas 'emuMMC' e 'Nintendo'.",
     "overwrite_inis": "Você deseja sobrescrever os arquivos de configuração .ini existentes?",
-	"delete_sysmodules_flags": "Você gostaria de apagar todos os sinalizadores de início dos módulos de sistema (boo2.flag)? Isto desligará todos os módulos de sistema para prevenir erros se você tem algum módulo de sistema instalado que não suporte o último Atmosphère."
+	"delete_sysmodules_flags": "Você gostaria de apagar todos os sinalizadores de início dos módulos de sistema (boot2.flag)? Isto desligará todos os módulos de sistema para prevenir erros se você tem algum módulo de sistema instalado que não suporte o último Atmosphère."
   },
   "ams_update": {
     "pack_label": "CNXPACK é um pacote all-in-one (tudo em um) baseado no custom firmware Atmosphère e inclui tudo de mais atual para seu Switch. Este é o pacote oficial do CostelaBR.",
