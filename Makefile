@@ -165,7 +165,7 @@ $(ROMFS):
 	@cp -ruf $(CURDIR)/$(ROMFS)/i18n/zh-TW/. $(CURDIR)/$(ROMFS)/i18n/zh-Hant/
 	@rm -rf $(CURDIR)/$(ROMFS)/i18n/*/installer.json $(CURDIR)/$(ROMFS)/i18n/*/main.json $(CURDIR)/$(ROMFS)/i18n/*/popup.json $(CURDIR)/$(ROMFS)/i18n/*/custom_layout.json
 	@$(MAKE) -C $(CURDIR)/cnxpack-rcm -f $(CURDIR)/cnxpack-rcm/Makefile
-	@cp $(CURDIR)/cnxpack-rcm/output/cnxpack_rcm.bin $(CURDIR)/$(ROMFS)/cnxpack_rcm.bin
+	@cp $(CURDIR)/cnxpack-rcm/output/cnx_rcm.bin $(CURDIR)/$(ROMFS)/cnx_rcm.bin
 # @$(MAKE) -C $(CURDIR)/cnxpack-forwarder -f $(CURDIR)/cnxpack-forwarder/Makefile
 	@cp $(CURDIR)/cnxpack-forwarder/cnxpack-forwarder.nro $(CURDIR)/$(ROMFS)/cnxpack-forwarder.nro
 

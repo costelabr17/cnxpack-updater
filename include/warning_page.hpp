@@ -11,7 +11,7 @@ private:
     std::chrono::system_clock::time_point start = std::chrono::high_resolution_clock::now();
 
 public:
-    WarningPage(const std::string& text);
+    WarningPage(const std::string& text, const bool& showMOTD = false);
     ~WarningPage();
 
     void draw(NVGcontext* vg, int x, int y, unsigned width, unsigned height, brls::Style* style, brls::FrameContext* ctx) override;

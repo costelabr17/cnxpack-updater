@@ -10,7 +10,7 @@ IPL_LOAD_ADDR := 0x40008000
 
 ################################################################################
 
-TARGET := cnxpack_rcm
+TARGET := cnx_rcm
 BUILDDIR := build
 OUTPUTDIR := output
 SOURCEDIR = bootloader

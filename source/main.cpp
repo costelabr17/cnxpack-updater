@@ -9,6 +9,8 @@
 #include "fs.hpp"
 #include "main_frame.hpp"
 #include "warning_page.hpp"
+#include "MOTD_tab.hpp"
+#include "utils.hpp"
 
 namespace i18n = brls::i18n;
 using namespace i18n::literals;
@@ -17,6 +19,22 @@ using namespace i18n::literals;
 
 CFW CurrentCfw::running_cfw;
 
+void showScreen(const bool& existHiddenFile)
+{
+    if (existHiddenFile) {
+        if (!util::wasMOTDAlreadyDisplayed())
+            brls::Application::pushView(new MOTDPage());
+        else
+            brls::Application::pushView(new MainFrame());
+    }
+    else
+    {
+        if (util::getMOTD() != "")
+            brls::Application::pushView(new WarningPage("menus/main/launch_warning"_i18n, true));
+        else
+            brls::Application::pushView(new WarningPage("menus/main/launch_warning"_i18n, false));
+    }
+}
 int main(int argc, char* argv[])
 {
     // Init the app
@@ -55,15 +73,9 @@ int main(int argc, char* argv[])
     brls::Logger::setLogLevel(brls::LogLevel::DEBUG);
     brls::Logger::debug("Start");
 
-    if (std::filesystem::exists(HIDDEN_APG_FILE)) {
-        brls::Application::pushView(new MainFrame());
-    }
-    else {
-        brls::Application::pushView(new WarningPage("menus/main/launch_warning"_i18n));
-    }
+    showScreen(std::filesystem::exists(HIDDEN_APG_FILE));
 
-    while (brls::Application::mainLoop())
-        ;
+    while (brls::Application::mainLoop());
 
     romfsExit();
     splExit();

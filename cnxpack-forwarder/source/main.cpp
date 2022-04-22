@@ -3,13 +3,13 @@
 
 #include <switch.h>
 
-#define PATH        "/switch/gmpack-updater/"
-#define FULL_PATH   "/switch/gmpack-updater/gmpack-updater.nro"
-#define CONFIG_PATH "/config/gmpack-updater/switch/gmpack-updater/gmpack-updater.nro"
-#define PREFIX      "/switch/gmpack-updater/gmpack-updater-v"
-#define FORWARDER_PATH      "/config/gmpack-updater/gmpack-forwarder.nro"
-#define CONFIG_SWITCH       "/config/gmpack-updater/switch/"
-#define HIDDEN_FILE "/config/gmpack-updater/.gmpack-updater"
+#define PATH        "/switch/cnxpack-updater/"
+#define FULL_PATH   "/switch/cnxpack-updater/cnxpack-updater.nro"
+#define CONFIG_PATH "/config/cnxpack-updater/switch/cnxpack-updater/cnxpack-updater.nro"
+#define PREFIX      "/switch/cnxpack-updater/cnxpack-updater-v"
+#define FORWARDER_PATH      "/config/cnxpack-updater/cnxpack-forwarder.nro"
+#define CONFIG_SWITCH       "/config/cnxpack-updater/switch/"
+#define HIDDEN_FILE "/config/cnxpack-updater/.cnxpack-updater"
 
 int removeDir(const char* path)
 {

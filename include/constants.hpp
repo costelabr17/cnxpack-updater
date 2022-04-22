@@ -4,15 +4,16 @@ constexpr const char ROOT_PATH[] = "/";
 constexpr const char DOWNLOAD_PATH[] = "/config/cnxpack-updater/";
 constexpr const char CONFIG_PATH[] = "/config/cnxpack-updater/";
 
-constexpr const char RCM_PAYLOAD_PATH[] = "romfs:/cnxpack_rcm.bin";
+constexpr const char RCM_PAYLOAD_PATH[] = "romfs:/cnx_rcm.bin";
 constexpr const char MARIKO_PAYLOAD_PATH[] = "/payload.bin";
 constexpr const char MARIKO_PAYLOAD_PATH_TEMP[] = "/payload.bin.apg";
 
 constexpr const char APP_URL[] = "https://github.com/AMSNX/cnxpack-updater/releases/latest/download/cnxpack-updater.zip";
+
 constexpr const char TAGS_INFO[] = "https://api.github.com/repos/AMSNX/cnxpack-updater/releases/latest";
 constexpr const char APP_FILENAME[] = "/config/cnxpack-updater/app.zip";
 
-constexpr const char NXLINKS_URL[] = "https://raw.githubusercontent.com/coldmvm/nx-links/main/nx-links-v116.json";
+constexpr const char NXLINKS_URL[] = "https://raw.githubusercontent.com/coldmvm/nx-links/main/nx-links-v117.json";
 
 constexpr const char FIRMWARE_FILENAME[] = "/config/cnxpack-updater/firmware.zip";
 constexpr const char FIRMWARE_PATH[] = "/firmware/";
@@ -39,6 +40,7 @@ constexpr const char AMS_ZIP_PATH[] = "/config/cnxpack-updater/ams.zip";
 constexpr const char APP_ZIP_PATH[] = "/config/cnxpack-updater/app.zip";
 constexpr const char FW_ZIP_PATH[] = "/config/cnxpack-updater/firmware.zip";
 constexpr const char TRANSLATIONS_ZIP_PATH[] = "/config/cnxpack-updater/translations.zip";
+constexpr const char MODIFICATIONS_ZIP_PATH[] = "/config/cnxpack-updater/modifications.zip";
 constexpr const char AMS_DIRECTORY_PATH[] = "/config/cnxpack-updater/atmosphere/";
 constexpr const char SEPT_DIRECTORY_PATH[] = "/config/cnxpack-updater/sept/";
 constexpr const char FW_DIRECTORY_PATH[] = "/firmware/";
@@ -56,6 +58,8 @@ constexpr const char HIDDEN_APG_FILE[] = "/config/cnxpack-updater/.cnxpack-updat
 constexpr const char LOG_FILE[] = "/config/cnxpack-updater/log.txt";
 
 constexpr const char PACK_FILE[] = "/bootloader/hekate_ipl.ini";
+
+constexpr const char MOTD_KEY[] = "CNXPACK-MOTD";
 
 constexpr const int LISTITEM_HEIGHT = 50;
 

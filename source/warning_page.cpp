@@ -6,18 +6,22 @@
 #include "constants.hpp"
 #include "fs.hpp"
 #include "main_frame.hpp"
+#include "MOTD_tab.hpp"
 #include "utils.hpp"
 
 namespace i18n = brls::i18n;
 using namespace i18n::literals;
-WarningPage::WarningPage(const std::string& text)
+WarningPage::WarningPage(const std::string& text, const bool& showMOTD)
 {
     fs::createTree(CONFIG_PATH);
     std::ofstream hiddenFile(HIDDEN_APG_FILE);
     this->button = (new brls::Button(brls::ButtonStyle::PRIMARY))->setLabel("menus/common/continue"_i18n);
     this->button->setParent(this);
-    this->button->getClickEvent()->subscribe([this](View* view) {
-        brls::Application::pushView(new MainFrame());
+    this->button->getClickEvent()->subscribe([this, showMOTD](View* view) {
+        if (!showMOTD)
+            brls::Application::pushView(new MainFrame());
+        else
+            brls::Application::pushView(new MOTDPage());
     });
 
     this->label = new brls::Label(brls::LabelStyle::REGULAR, text, true);
