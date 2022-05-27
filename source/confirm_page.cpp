@@ -51,9 +51,12 @@ ConfirmPage::ConfirmPage(brls::StagedAppletFrame* frame, const std::string& text
     }
     else
     {
-        this->registerAction("", brls::Key::A, [this] { return true; });
-        this->registerAction("", brls::Key::B, [this] { return true; });
-        this->registerAction("", brls::Key::PLUS, [this] { return true; });
+        if (this->done || this->reboot)
+		{
+		    this->registerAction("", brls::Key::A, [this] { return true; });
+            this->registerAction("", brls::Key::B, [this] { return true; });
+            this->registerAction("", brls::Key::PLUS, [this] { return true; });
+        }
     }
 }
 
@@ -91,7 +94,7 @@ void ConfirmPage::layout(NVGcontext* vg, brls::Style* style, brls::FontStash* st
     //page icon
     this->icon->setWidth(52);
     this->icon->setHeight(52);
-	this->icon->setBoundaries(style->AppletFrame.imageLeftPadding, style->AppletFrame.imageTopPadding, style->AppletFrame.imageSize, style->AppletFrame.imageSize);
+    this->icon->setBoundaries(style->AppletFrame.imageLeftPadding, style->AppletFrame.imageTopPadding, style->AppletFrame.imageSize, style->AppletFrame.imageSize);
     this->icon->invalidate(true);
 
     this->label->setWidth(this->width);
@@ -105,7 +108,8 @@ void ConfirmPage::layout(NVGcontext* vg, brls::Style* style, brls::FontStash* st
 
     this->button->setBoundaries(
         this->x + this->width / 2 - style->CrashFrame.buttonWidth / 2,
-        this->y + (this->height - style->CrashFrame.buttonHeight * 3),
+        //this->y + (this->height - style->CrashFrame.buttonHeight * 3),
+		this->y + (this->height - (style->CrashFrame.buttonHeight * 1.25)),
         style->CrashFrame.buttonWidth,
         style->CrashFrame.buttonHeight);
     this->button->invalidate();
@@ -115,7 +119,7 @@ void ConfirmPage::layout(NVGcontext* vg, brls::Style* style, brls::FontStash* st
 
 ConfirmPage::~ConfirmPage()
 {
-	delete this->icon;
+    delete this->icon;
     delete this->label;
     delete this->button;
 }

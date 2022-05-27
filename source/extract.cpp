@@ -11,6 +11,7 @@
 #include <set>
 #include <sstream>
 #include <string>
+#include <thread>
 #include <vector>
 
 #include "current_cfw.hpp"
@@ -39,7 +40,7 @@ namespace extract {
                 if (uncompressedSize * 1.1 > freeStorage) {
                     unzipper.close();
                     brls::Application::crash("menus/errors/insufficient_storage"_i18n);
-                    usleep(2000000);
+                    std::this_thread::sleep_for(std::chrono::microseconds(2000000));
                     brls::Application::quit();
                 }
             }
@@ -54,7 +55,7 @@ namespace extract {
         std::vector<zipper::ZipEntry> entries;
 
         preWork(unzipper, workingPath, entries);
-        std::set<std::string> ignoreList = fs::readLineByLine(FILES_IGNORE);
+        std::set<std::string> ignoreList = fs::readLineByLine(fmt::format(FILES_IGNORE, BASE_FOLDER_NAME));
 
         for (const auto& entry : entries) {
             if (ProgressEvent::instance().getInterupt()) {

@@ -1,4 +1,4 @@
-	#include "main_frame.hpp"
+#include "main_frame.hpp"
 
 #include <fstream>
 #include <json.hpp>
@@ -27,17 +27,17 @@ MainFrame::MainFrame() : TabFrame()
 {
     bool newversion = false;
 
-	this->setIcon("romfs:/gui_icon.png");
+    this->setIcon("romfs:/gui_icon.png");
     this->setTitle(AppTitle);
 
     s64 freeStorage;
-    std::string tag = util::getLatestTag(TAGS_INFO);
+    std::string tag = util::getLatestTag();
 
-	if (!tag.empty()) {
+    if (!tag.empty()) {
         //fetching the version as a number
-    	std::string temp = "";
-    	int iTag = 0;
-    	int iAppVersion = 0;
+        std::string temp = "";
+        int iTag = 0;
+        int iAppVersion = 0;
 
         temp.reserve(tag.size()); // optional, avoids buffer reallocations in the loop
         for(size_t i = 0; i < tag.size(); ++i)
@@ -53,12 +53,12 @@ MainFrame::MainFrame() : TabFrame()
 
         newversion = (iTag > iAppVersion);
 
-        this->setFooterText(fmt::format("menus/main/footer_text"_i18n,
-            (!tag.empty() && newversion) ? "v" + std::string(AppVersion) + "menus/main/new_update"_i18n : AppVersion,
+        this->setFooterText(fmt::format("menus/main/footer_text"_i18n, BRAND_FULL_NAME,
+            (!tag.empty() && newversion) ? "v" + std::string(AppVersion) + "menus/main/new_update_footer"_i18n : AppVersion,
             R_SUCCEEDED(fs::getFreeStorageSD(freeStorage)) ? floor(((float)freeStorage / 0x40000000) * 100.0) / 100.0 : -1));
     }
     else {
-        this->setFooterText(fmt::format("menus/main/footer_text"_i18n, std::string(AppVersion) + "menus/main/footer_text_not_connected"_i18n, R_SUCCEEDED(fs::getFreeStorageSD(freeStorage)) ? (float)freeStorage / 0x40000000 : -1));
+        this->setFooterText(fmt::format("menus/main/footer_text"_i18n, BRAND_FULL_NAME, std::string(AppVersion) + "menus/main/footer_text_not_connected"_i18n, R_SUCCEEDED(fs::getFreeStorageSD(freeStorage)) ? (float)freeStorage / 0x40000000 : -1));
     }
 
     nlohmann::ordered_json nxlinks;
@@ -67,20 +67,28 @@ MainFrame::MainFrame() : TabFrame()
     bool erista = util::isErista();
 
     if (!newversion) {
-		this->addTab("menus/main/about"_i18n, new AboutTab());
-		this->addTab("menus/main/update_ams"_i18n, new AmsTab(nxlinks, erista));
-		this->addTab("menus/main/download_firmware"_i18n, new ListDownloadTab(contentType::fw, nxlinks));
-		this->addTab("menus/main/download_translations"_i18n, new ListExtraTab(contentType::translations, nxlinks));
-		this->addTab("menus/main/download_mods"_i18n, new ListExtraTab(contentType::modifications, nxlinks));
-		this->addTab("menus/main/tools"_i18n, new ToolsTab(tag, erista));
-		this->addSeparator();
-		this->addTab("menus/main/credits"_i18n, new CreditsTab());
+        this->addTab("menus/main/about"_i18n, new AboutTab());
+        this->addTab("menus/main/update_ams"_i18n, new AmsTab(nxlinks, erista));
+        this->addTab("menus/main/download_firmware"_i18n, new ListDownloadTab(contentType::fw, nxlinks));
+        this->addTab("menus/main/download_translations"_i18n, new ListExtraTab(contentType::translations, nxlinks));
+        this->addTab("menus/main/download_mods"_i18n, new ListExtraTab(contentType::modifications, nxlinks));
+        this->addTab("menus/main/tools"_i18n, new ToolsTab(tag, erista));
+        this->addSeparator();
+        this->addTab("menus/main/credits"_i18n, new CreditsTab());
 
-		this->registerAction("", brls::Key::B, [this] { return true; });
+        this->registerAction("", brls::Key::B, [] { return true; });
     }
     else
     {
-        this->addTab("Nova atualização", new UpdateTab());
-        this->registerAction("", brls::Key::B, [this] { return true; });
+        this->addTab("menus/main/new_update"_i18n, new UpdateTab(tag));
+        this->registerAction("", brls::Key::B, [] { return true; });
     }
+
+    this->registerAction("menus/main/help"_i18n, brls::Key::X, [] {
+        brls::TabFrame* popupHelp = new brls::TabFrame();
+        popupHelp->addTab("menus/main/help_how_to_use"_i18n, new brls::Label(brls::LabelStyle::REGULAR, "menus/main/help_how_to_use_text"_i18n, true));
+        popupHelp->addTab("menus/main/help_order"_i18n, new brls::Label(brls::LabelStyle::REGULAR, fmt::format("menus/main/help_order_text"_i18n, "menus/main/update_ams"_i18n, util::upperCase(BASE_FOLDER_NAME), "menus/main/download_firmware"_i18n), true));
+        brls::PopupFrame::open("menus/main/help"_i18n, popupHelp, "menus/main/help_how_to_use_full"_i18n, "");
+		return true;
+    });
 }

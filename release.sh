@@ -1,11 +1,12 @@
 #/bin/bash
 echo ""
 echo "******************* Creating the release ZIP..."
+fVar=$(find -type f -name '*-updater.nro');
+fT=${fVar:2}
 mkdir switch
-mkdir ./switch/cnxpack-updater
-touch ./switch/cnxpack-updater/.cnxpack-updater.star
-cp cnxpack-updater.nro ./switch/cnxpack-updater
-zip -r -9 ./cnxpack-updater.zip ./switch/
+mkdir ./switch/${fT%.*}
+cp $fT ./switch/${fT%.*}
+zip -r -9 ./${fT%.*}.zip ./switch/
 rm -rf switch
 
 echo ""

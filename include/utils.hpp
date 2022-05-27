@@ -34,7 +34,7 @@ namespace util {
     void showDialogBoxInfo(const std::string& text);
     int showDialogBoxBlocking(const std::string& text, const std::string& opt);
     int showDialogBoxBlocking(const std::string& text, const std::string& opt1, const std::string& opt2);
-    std::string getLatestTag(const std::string& url);
+    std::string getLatestTag();
     std::string downloadFileToString(const std::string& url);
     void saveToFile(const std::string& text, const std::string& path);
     std::string readFile(const std::string& path);
@@ -47,15 +47,24 @@ namespace util {
     std::string getContentsPath();
     bool getBoolValue(const nlohmann::json& jsonFile, const std::string& key);
     const nlohmann::ordered_json getValueFromKey(const nlohmann::ordered_json& jsonFile, const std::string& key);
+
+/*
+MY METHODS
+*/
+
     void writeLog(std::string line);
     std::string getGMPackVersion();
     void doDelete(std::vector<std::string> folders);
-    bool isExtraPresent(const std::vector<std::string>);
     bool wasMOTDAlreadyDisplayed();
     std::string getMOTD();
-/*
-Base64
-*/
-    std::string b64encode(const std::string& str);
-    std::string b64decode(const std::string& str64);
+    void createForwarderConfig();
+    std::string readConfFile(const std::string& fileName, const std::string& section);
+    void cleanFiles();
+    void createStarFile();
+    bool getLatestCFWPack(std::string& url, std::string& packName, std::string& packURL, int& packSize, std::string& packBody);
+    std::string getNANDType(const std::string& NAND);
+    std::string& rtrim(std::string& s);
+    std::string& ltrim(std::string& s);
+    std::string& trim(std::string& s);
+    void removeFileWildCardFromDirectory(const std::string& directory, const std::string& fileWildCard);
 }  // namespace util

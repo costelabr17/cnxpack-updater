@@ -4,7 +4,6 @@
 #include <string>
 
 #include "confirm_page.hpp"
-#include "list_download_tab_confirmation.hpp"
 #include "current_cfw.hpp"
 #include "dialogue_page.hpp"
 #include "download.hpp"
@@ -16,9 +15,9 @@
 namespace i18n = brls::i18n;
 using namespace i18n::literals;
 
-UpdateTab::UpdateTab() : brls::List()
+UpdateTab::UpdateTab(std::string& version) : brls::List()
 {
-    this->description = new brls::Label(brls::LabelStyle::DESCRIPTION, "menus/common/update_label"_i18n, true);
+    this->description = new brls::Label(brls::LabelStyle::DESCRIPTION, fmt::format("menus/common/update_label"_i18n, APP_SHORT_NAME, version), true);
     this->description->setHorizontalAlign(NVG_ALIGN_CENTER);
     this->addView(description);
 
@@ -47,37 +46,37 @@ void UpdateTab::CreateStagedFrames(const std::string& text, const std::string& o
     stagedFrame->setTitle(operation);
 
     stagedFrame->addStage(new ConfirmPage(stagedFrame, text, false, false, false, true));
-    stagedFrame->addStage(new WorkerPage(stagedFrame, "menus/common/downloading"_i18n, []() { util::downloadArchive(APP_URL, contentType::app); }, true));
+    stagedFrame->addStage(new WorkerPage(stagedFrame, "menus/common/downloading"_i18n, []() { util::downloadArchive(fmt::format(APP_URL, GITHUB_USER, BASE_FOLDER_NAME, BASE_FOLDER_NAME), contentType::app); }, true));
     stagedFrame->addStage(new WorkerPage(stagedFrame, "menus/common/extracting"_i18n, []() { util::extractArchive(contentType::app); }, true));
-    stagedFrame->addStage(new ConfirmPage(stagedFrame, "menus/common/all_done"_i18n, false, false, false, true));
+    stagedFrame->addStage(new ConfirmPage(stagedFrame, "menus/common/app_update_done"_i18n, false, false, false, true));
     brls::Application::pushView(stagedFrame);
 }
 
 void UpdateTab::layout(NVGcontext* vg, brls::Style* style, brls::FontStash* stash)
 {
-	this->image->setWidth(112);
+    this->image->setWidth(112);
     this->image->setHeight(102);
-	this->image->setBoundaries(
+    this->image->setBoundaries(
         this->x + this->width / 2 - this->image->getWidth() / 2,
-		96,
+        96,
         this->image->getWidth(),
         this->image->getHeight());
     this->image->invalidate(true);
 
-	this->description->setWidth(this->width);
+    this->description->setWidth(this->width);
     this->description->setHeight(80);
     this->description->setBoundaries(
         this->x + this->width / 2 - this->description->getWidth() / 2,
-		230,
+        230,
         this->description->getWidth(),
         this->description->getHeight());
     this->description->invalidate(true);
 
-	this->listItem->setWidth(700);
+    this->listItem->setWidth(700);
     this->listItem->setHeight(LISTITEM_HEIGHT);
     this->listItem->setBoundaries(
         this->x + (this->width / 2) - (this->listItem->getWidth() / 2),
-		568,
+        568,
         this->listItem->getWidth(),
         this->listItem->getHeight());
     this->listItem->invalidate(true);
