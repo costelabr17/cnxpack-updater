@@ -22,7 +22,7 @@ DATA		:=	data
 INCLUDES	:=	include lib/zipper/include /lib/borealis/library/include/borealis/extern/nlohmann
 APP_TITLE	:=	CNX Pack Updater
 APP_AUTHOR	:=	coldmvm
-APP_VERSION :=  2.0.1
+APP_VERSION :=  2.0.2
 TARGET		:=	$(notdir $(CURDIR))
 
 ROMFS				:=	resources

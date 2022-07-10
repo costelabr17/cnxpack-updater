@@ -56,7 +56,7 @@ MY METHODS
     std::string getGMPackVersion();
     void doDelete(std::vector<std::string> folders);
     bool wasMOTDAlreadyDisplayed();
-    std::string getMOTD();
+    std::string getMOTD(bool& bAlwaysShow);
     void createForwarderConfig();
     std::string readConfFile(const std::string& fileName, const std::string& section);
     void cleanFiles();
@@ -67,4 +67,7 @@ MY METHODS
     std::string& ltrim(std::string& s);
     std::string& trim(std::string& s);
     void removeFileWildCardFromDirectory(const std::string& directory, const std::string& fileWildCard);
+    bool getGithubJSONBody(std::string url, std::string& packBody);
+    void createCleanInstallFile();
+    bool deleteThemeFolders();
 }  // namespace util

@@ -29,6 +29,9 @@ namespace extract {
     namespace {
         void preWork(zipper::Unzipper& unzipper, const std::string& workingPath, std::vector<zipper::ZipEntry>& entries)
         {
+            if (!std::filesystem::exists(workingPath))
+                std::filesystem::create_directory(workingPath);
+
             chdir(workingPath.c_str());
             entries = unzipper.entries();
             s64 uncompressedSize = 0;
@@ -71,6 +74,10 @@ namespace extract {
             else if (entry.name == "atmosphere/stratosphere.romfs" || entry.name == "atmosphere/package3") {
                 std::ofstream readonlyFile(entry.name + ".apg");
                 unzipper.extractEntryToStream(entry.name, readonlyFile);
+            }
+
+            else if ((workingPath == "/") && (entry.name == "switch/tinfoil/credentials.json" || entry.name == "switch/tinfoil/gdrive.token" || entry.name == "switch/tinfoil/locations.conf")) {
+                continue;
             }
             else {
                 unzipper.extractEntry(entry.name);

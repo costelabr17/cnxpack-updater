@@ -9,11 +9,15 @@ constexpr const char APP_FULL_NAME[] = "CNX Pack Updater";
 constexpr const char APP_SHORT_NAME[] = "CNX";
 constexpr const char BASE_FOLDER_NAME[] = "cnxpack";
 constexpr const char GITHUB_USER[] = "AMSNX";
+constexpr const bool SHOW_GNX = true;
 
 /*
 DO NOT CHANGE ONLY THESE CONSTANTS UNLESS YOU KNOW WHAT YOU'RE DOING
 */
 
+constexpr const bool DEBUG = false;
+
+constexpr const char CFW_ROOT_PATH[] = "/apgtmppackfolder";
 constexpr const char ROOT_PATH[] = "/";
 constexpr const char DOWNLOAD_PATH[] = "/config/{}-updater/";
 constexpr const char CONFIG_PATH[] = "/config/{}-updater/";
@@ -23,10 +27,10 @@ constexpr const char MARIKO_PAYLOAD_PATH[] = "/payload.bin";
 constexpr const char MARIKO_PAYLOAD_PATH_TEMP[] = "/payload.bin.apg";
 
 constexpr const char APP_URL[] = "https://github.com/{}/{}-updater/releases/latest/download/{}-updater.zip";
-constexpr const char TAGS_INFO[] = "https://api.github.com/repos/{}/{}-updater/releases/latest";
+constexpr const char APP_INFO[] = "https://api.github.com/repos/{}/{}-updater/releases/latest";
 constexpr const char APP_FILENAME[] = "/config/{}-updater/app.zip";
 
-constexpr const char NXLINKS_URL[] = "https://raw.githubusercontent.com/coldmvm/nx-links/master/nx-links-v201.json";
+constexpr const char NXLINKS_URL[] = "https://raw.githubusercontent.com/coldmvm/nx-links/master/nx-links-v202.json";
 
 constexpr const char FIRMWARE_FILENAME[] = "/config/{}-updater/firmware.zip";
 constexpr const char FIRMWARE_PATH[] = "/firmware/";
@@ -82,6 +86,8 @@ constexpr const int LISTITEM_HEIGHT = 50;
 
 constexpr const int MAX_FETCH_LINKS = 15;
 
+constexpr const char CLEAN_INSTALL_FLAG[] = "/cleaninstall.flag";
+
 enum class contentType
 {
     fw,
@@ -98,10 +104,11 @@ enum class DialogType
 {
     updating,
     warning,
-    error
+    error,
+    beta
 };
 
-constexpr std::string_view ROMFSIconFile[3]{"romfs:/updating.png", "romfs:/warning.png", "romfs:/error.png"};
+constexpr std::string_view ROMFSIconFile[4]{"romfs:/updating.png", "romfs:/warning.png", "romfs:/error.png", "romfs:/beta.png"};
 
 enum class CFW
 {

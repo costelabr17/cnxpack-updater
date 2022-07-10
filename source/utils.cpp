@@ -172,19 +172,33 @@ namespace util {
                 brls::Application::quit();
                 break;
             case contentType::ams_cfw: {
-                //int overwriteInis = showDialogBoxBlocking("menus/utils/overwrite_inis"_i18n, "menus/common/no"_i18n, "menus/common/yes"_i18n);
-                //int deleteContents = showDialogBoxBlocking("menus/utils/delete_sysmodules_flags"_i18n, "menus/common/no"_i18n, "menus/common/yes"_i18n);
-                
-                int overwriteInis = 1;
-                int deleteContents = 1;
+                std::filesystem::remove(CLEAN_INSTALL_FLAG);
 
-                if (deleteContents == 1)
+                int overwriteInis = 1;
+                //int overwriteInis = showDialogBoxBlocking("menus/utils/overwrite_inis"_i18n, "menus/common/no"_i18n, "menus/common/yes"_i18n);
+
+                int deleteContents = 1;
+                //int deleteContents = showDialogBoxBlocking("menus/utils/delete_sysmodules_flags"_i18n, "menus/common/no"_i18n, "menus/common/yes"_i18n);
+
+                int fullClean = showDialogBoxBlocking("menus/utils/delete_all_but_emunand"_i18n, "menus/common/no"_i18n, "menus/common/yes"_i18n);
+
+                if (fullClean == 1)
+                {
+                    if (showDialogBoxBlocking("menus/utils/delete_all_but_emunand_confirm"_i18n, "menus/common/no"_i18n, "menus/common/yes"_i18n) == 1)
+                        createCleanInstallFile();
+                    else
+                        fullClean = 0;
+                }
+
+                if ((deleteContents == 1) && (fullClean == 0))
                 {
                     removeSysmodulesFlags(AMS_CONTENTS);
                     removeFileWildCardFromDirectory(ROOT_PATH, "hekate_ctcaer_");
+					
+					extract::extract(fmt::format(AMS_FILENAME, BASE_FOLDER_NAME), ROOT_PATH, overwriteInis);
                 }
-
-                extract::extract(fmt::format(AMS_FILENAME, BASE_FOLDER_NAME), ROOT_PATH, overwriteInis);
+				else
+					extract::extract(fmt::format(AMS_FILENAME, BASE_FOLDER_NAME), CFW_ROOT_PATH, overwriteInis);
 
                 //removing custom firmware temporary zip file.
                 std::filesystem::remove(fmt::format(AMS_ZIP_PATH, BASE_FOLDER_NAME));
@@ -235,7 +249,7 @@ namespace util {
     std::string getLatestTag()
     {
         nlohmann::ordered_json tag;
-        download::getRequest(fmt::format(TAGS_INFO, GITHUB_USER, BASE_FOLDER_NAME), tag, {"accept: application/vnd.github.v3+json"});
+        download::getRequest(fmt::format(APP_INFO, GITHUB_USER, BASE_FOLDER_NAME), tag, {"accept: application/vnd.github.v3+json"});
         if (tag.find("tag_name") != tag.end())
             return tag["tag_name"];
         else
@@ -440,9 +454,14 @@ MY METHODS
     {
         std::string hiddenFileLine;
 
-        std::string MOTDLine = getMOTD();
+        bool bAlwaysShow = false;
+
+        std::string MOTDLine = getMOTD(bAlwaysShow);
         if (MOTDLine != "")
         {
+            if (bAlwaysShow)
+                return false;
+
             //getting only the first line of the MOTD
             std::string firstLine;
             size_t pos_end;
@@ -464,7 +483,7 @@ MY METHODS
             return true;
     }
 
-    std::string getMOTD()
+    std::string getMOTD(bool& bAlwaysShow)
     {
         std::string text = "";
         nlohmann::ordered_json json;
@@ -475,7 +494,10 @@ MY METHODS
             {
                 bool enabled = json[fmt::format(MOTD_KEY, util::upperCase(BASE_FOLDER_NAME))]["enabled"];
                 if (enabled)
+                {
                     text = json[fmt::format(MOTD_KEY, util::upperCase(BASE_FOLDER_NAME))]["message"];
+                    bAlwaysShow = json[fmt::format(MOTD_KEY, util::upperCase(BASE_FOLDER_NAME))]["always_show"];
+                }
             }
         }
 
@@ -529,6 +551,7 @@ MY METHODS
         std::filesystem::remove(fmt::format(MODIFICATIONS_ZIP_PATH, BASE_FOLDER_NAME));
         std::filesystem::remove(fmt::format(LOG_FILE, BASE_FOLDER_NAME));
         std::filesystem::remove(fmt::format(FORWARDER_CONF, BASE_FOLDER_NAME));
+        std::filesystem::remove(CLEAN_INSTALL_FLAG);
         fs::removeDir(fmt::format(AMS_DIRECTORY_PATH, BASE_FOLDER_NAME));
         fs::removeDir(fmt::format(SEPT_DIRECTORY_PATH, BASE_FOLDER_NAME));
         fs::removeDir(FW_DIRECTORY_PATH);
@@ -621,5 +644,42 @@ MY METHODS
             if (e.path().string().find(fileWildCard) != std::string::npos) {
                 std::filesystem::remove(e.path());
             }
+    }
+
+    bool getGithubJSONBody(std::string url, std::string& packBody)
+    {
+        nlohmann::ordered_json json;
+        download::getRequest(url, json, {"accept: application/vnd.github.v3+json"});
+
+        if (json.find("body") != json.end())
+            packBody = json["body"];
+        else
+            return false;
+
+        return true;
+    }
+
+    void createCleanInstallFile()
+    {
+        std::ofstream file;
+        file.open(CLEAN_INSTALL_FLAG, std::ofstream::out | std::ofstream::trunc);
+        if (file.is_open())
+            file << BASE_FOLDER_NAME << "-updater";
+        file.close();
+    }
+
+    bool deleteThemeFolders()
+    {
+        std::string tmp;
+        tmp = fmt::format("{}{}", AMS_CONTENTS, "0100000000001000");
+        std::filesystem::remove_all(tmp.c_str());
+
+        tmp = fmt::format("{}{}", AMS_CONTENTS, "0100000000001007");
+        std::filesystem::remove_all(tmp.c_str());
+
+        tmp = fmt::format("{}{}", AMS_CONTENTS, "0100000000001013");
+        std::filesystem::remove_all(tmp.c_str());
+
+        return true;
     }
 }  // namespace util

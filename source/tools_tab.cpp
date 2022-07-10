@@ -25,42 +25,6 @@ namespace {
 
 ToolsTab::ToolsTab(const std::string& tag, bool erista) : brls::List()
 {
-/*
-    if (!tag.empty()) {
-        //fetching the version as a number
-        std::string temp = "";
-        int iTag = 0;
-        int iAppVersion = 0;
-
-        temp.reserve(tag.size()); // optional, avoids buffer reallocations in the loop
-        for(size_t i = 0; i < tag.size(); ++i)
-            if(tag[i] != '.') temp += tag[i]; // removing the . from the version
-        iTag = std::stoi(temp); // casting from string to integer
-
-        temp = "";
-
-        temp.reserve(strlen(AppVersion)); // optional, avoids buffer reallocations in the loop
-        for(size_t i = 0; i < strlen(AppVersion); ++i)
-            if(AppVersion[i] != '.') temp += AppVersion[i]; // removing the . from the version
-        iAppVersion = std::stoi(temp); // casting from string to integer
-
-        if (iTag > iAppVersion) {
-            brls::ListItem* updateApp = new brls::ListItem(fmt::format("menus/tools/update_app"_i18n, tag));
-            std::string text(fmt::format("menus/tools/dl_app"_i18n, APP_FULL_NAME, tag));
-            updateApp->getClickEvent()->subscribe([text, tag](brls::View* view) {
-                brls::StagedAppletFrame* stagedFrame = new brls::StagedAppletFrame();
-                stagedFrame->setTitle("menus/common/updating"_i18n);
-                stagedFrame->addStage(new ConfirmPage(stagedFrame, text));
-                stagedFrame->addStage(new WorkerPage(stagedFrame, "menus/common/downloading"_i18n, []() { util::downloadArchive(fmt::format(APP_URL, GITHUB_USER, BASE_FOLDER_NAME, BASE_FOLDER_NAME), contentType::app); }));
-                stagedFrame->addStage(new WorkerPage(stagedFrame, "menus/common/extracting"_i18n, []() { util::extractArchive(contentType::app); }));
-                stagedFrame->addStage(new ConfirmPage(stagedFrame, "menus/common/all_done"_i18n, true));
-                brls::Application::pushView(stagedFrame);
-            });
-            updateApp->setHeight(LISTITEM_HEIGHT);
-            this->addView(updateApp);
-        }
-    }
-*/
     brls::ListItem* netSettings = new brls::ListItem("menus/tools/internet_settings"_i18n);
     netSettings->getClickEvent()->subscribe([](brls::View* view) {
         brls::PopupFrame::open("menus/tools/internet_settings"_i18n, new NetPage(), "", "");
@@ -105,7 +69,9 @@ ToolsTab::ToolsTab(const std::string& tag, bool erista) : brls::List()
     cleanUp->setHeight(LISTITEM_HEIGHT);
 
     brls::ListItem* motd = new brls::ListItem("menus/tools/motd_label"_i18n);
-	std::string sMOTD = util::getMOTD();
+
+    bool bAlwaysShow;
+	std::string sMOTD = util::getMOTD(bAlwaysShow);
     motd->getClickEvent()->subscribe([sMOTD](brls::View* view) {
         util::showDialogBoxInfo(sMOTD);
     });
@@ -124,12 +90,55 @@ ToolsTab::ToolsTab(const std::string& tag, bool erista) : brls::List()
 	    this->addView(motd);
     this->addView(changelog);
 
-/*
-    brls::ListItem* icons = new brls::ListItem("Icones - \u1F968");
-    icons->getClickEvent()->subscribe([](brls::View* view) {
-        brls::PopupFrame::open("Icones", new IconsPage(), "", "");
-    });
-    icons->setHeight(LISTITEM_HEIGHT);
-    this->addView(icons);
-*/
+    if (DEBUG)
+    {
+        brls::ListItem* icons = new brls::ListItem("\uE150 Icones");
+        icons->getClickEvent()->subscribe([](brls::View* view) {
+            brls::PopupFrame::open("Icones", new IconsPage(), "", "");
+        });
+        icons->setHeight(LISTITEM_HEIGHT);
+        this->addView(icons);
+
+        brls::ListItem* forceCleanInstall = new brls::ListItem("\uE150 Forçar arquivo de instalação limpa - NAO USE!");
+        forceCleanInstall->getClickEvent()->subscribe([](brls::View* view) {
+            util::createCleanInstallFile();
+			util::showDialogBoxInfo("Agora use a opção 'Reiniciar no Payload RCM' para testar a 'Instalação Limpa'.");
+        });
+        forceCleanInstall->setHeight(LISTITEM_HEIGHT);
+        this->addView(forceCleanInstall);
+
+        brls::ListItem* payloadRCM = new brls::ListItem("\uE150 Reiniciar no Payload RCM - NAO USE!");
+        payloadRCM->getClickEvent()->subscribe([](brls::View* view) {
+            if (util::isErista()) {
+                util::rebootToPayload(RCM_PAYLOAD_PATH);
+            }
+            else {
+                if (std::filesystem::exists(UPDATE_BIN_PATH)) {
+                    fs::copyFile(UPDATE_BIN_PATH, MARIKO_PAYLOAD_PATH_TEMP);
+                }
+                else {
+                    fs::copyFile(REBOOT_PAYLOAD_PATH, MARIKO_PAYLOAD_PATH_TEMP);
+                }
+                fs::copyFile(RCM_PAYLOAD_PATH, MARIKO_PAYLOAD_PATH);
+                util::shutDown(true);
+            }
+        });
+        payloadRCM->setHeight(LISTITEM_HEIGHT);
+        this->addView(payloadRCM);
+
+        brls::ListItem* test = new brls::ListItem("\uE150 Versão?");
+        test->getClickEvent()->subscribe([](brls::View* view) {
+
+			std::string src = APP_VERSION;
+            std::string trg = "";
+
+			for (char c : src) {
+				if (std::isdigit(c)) trg += c;
+			}
+			
+            util::showDialogBoxInfo(fmt::format("Versão por extenso: {}\nVersão calculada: {}", src, trg));
+        });
+        test->setHeight(LISTITEM_HEIGHT);
+        this->addView(test);
+    }
 }
