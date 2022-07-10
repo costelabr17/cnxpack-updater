@@ -1,4 +1,4 @@
-<h1 align="center">CNX - CNX Pack Updater</h1>
+<h1 align="center">CNX Pack Updater</h1>
 
 <div align="center">
 <img src="./Images/bootlogo.png" alight-itens="center">
