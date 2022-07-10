@@ -7,7 +7,7 @@
 [![GitHub contributors](https://img.shields.io/github/contributors/AMSNX/cnxpack-updater)](https://github.com/AMSNX/cnxpack-updater/graphs/contributors)
 [![GitHub All Releases](https://img.shields.io/github/downloads/AMSNX/cnxpack-updater/total)](https://github.com/AMSNX/cnxpack-updater/releases)
 [![Latest release](https://img.shields.io/github/v/release/AMSNX/cnxpack-updater)](https://github.com/AMSNX/cnxpack-updater/releases/latest)
-[![GitHub issues](https://img.shields.io/github/issues//AMSNX/cnxpack-updater)](https://github.com/AMSNX/cnxpack-updater/issues)
+[![GitHub issues](https://img.shields.io/github/issues/AMSNX/cnxpack-updater)](https://github.com/AMSNX/cnxpack-updater/issues)
 [![License](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html)
 
 Um homebrew de Nintendo Switch, baseado no homebrew [AIO-Switch-Updater](https://github.com/HamletDuFromage/aio-switch-updater/), para fazer o download e atualizar firmwares e o custom firmware [CNX](https://github.com/AMSNX/cnxpack-updater/releases).
