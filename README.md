@@ -16,7 +16,7 @@ GMPACK é um pacote all-in-one (tudo em um) de custom firmware que inclui o Atmo
 
 Este homebrew suporta Atmosphère, ReiNX e SXOS, e funciona em consoles não corrigidos (`Erista`) and corrigidos (`V2/Mariko`).
 
-## **[FAÇA O DOWNLOAD POR AQUI!](https://github.com/AMSNX/cnxpack-updater/releases/latest)
+## **[FAÇA O DOWNLOAD POR AQUI!](https://github.com/AMSNX/cnxpack-updater/releases/latest) 
 
 ## Como instalar?
 Baixe o arquivo `cnxpack-updater.zip` do link acima e o extraia na `raiz` do microSD.
